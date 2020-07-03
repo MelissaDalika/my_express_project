@@ -1,13 +1,24 @@
 const express = require('express')
+const axios = require('axios')
 const path = require('path')
 const app = express()
 
 
 app.use('/', express.static("public"));
 
+app.use((req,res,next) =>{
+  if (req.query.key == "liberitutti"){
+    next()
+  }
+  else {
+    res.send("non hai fornito una chiave o è sbagliata")
+  }
+})
+
 app.get('/about', (req, res) => {
   res.status(200).sendFile(path.join(__dirname,  '/views/about.html'))
 })
+
 
 app.get('/utenti/:id_utente', (req, res) => {
   console.log(`questa è la pagina dell'utente con id ${req.params.id_utente}`)
